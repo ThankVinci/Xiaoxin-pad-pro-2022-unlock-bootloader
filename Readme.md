@@ -10,7 +10,7 @@
 
 - 型号：`xiaoxin pad pro 2022 骁龙版`
 - `CPU`：`骁龙870`
-- 设备名称：`B138FC`
+- 设备名称：`TB138FC`
 - 原厂固件：`TB138FC_CN_OPEN_USER_Q00024.0_S_ZUI_14.0.625_ST_220901_qpst`
 - 原来的系统：`ZUI15`
 
@@ -20,7 +20,7 @@
 
 去ZUI官网申请设备的`sn.img`的解锁镜像，由于ZUI官网目前(本文撰写日期是2024.5.3)每天都有限额，所以这一步操作是需要先进行的。
 
-简单点说就是注册一个联想账号，同时使用`adb`命令，使得机器进入`BootLoader`模式：
+简单点说就是注册一个联想账号，同时使用`adb`命令，使得机器进入`bootloader`模式：
 
 ```cmd
 adb reboot bootloader
@@ -40,7 +40,7 @@ fastboot devices
 
 ## 情况介绍
 
-该平板是我在二手平台收的机器，自带的系统是`UI15`，使用上动画挺流畅的，视频观看也没有太大的问题，但是操作起来还是有点小问题的，而且我就是不喜欢这种`UI`，所以才决定解锁和刷机。
+该平板是我在二手平台收的机器，自带的系统是`ZUI15`，使用上动画挺流畅的，视频观看也没有太大的问题，但是操作起来还是有点小问题的，而且我就是不喜欢这种`UI`，所以才决定解锁和刷机。
 
 
 
@@ -48,8 +48,8 @@ fastboot devices
 
 1. 首先设备要进入开发者模式，打开`oem`解锁的开关以及`USB`调试开关；
 2. 下载`sn.img`，下载`platform-tools`，为了方便起见可以把`sn.img`放到`platform-tools`的解压目录中；
-3. 在`platform-tools`的目录下打开`cmd`，输入`adb reboot bootloader`，注意是`bootloader`而不是`fastboot`，这个区别在下面会讲到；
-4. 进入`bootloader`后，执行`fastboot flash unlock sn.img`，然后看到提示刷入成功后，使用平板的音量键调节，控制平板`restart to bootloader`，此时执行`fastboot oem unlock-go`，应该就能完成解锁了。
+3. 在`platform-tools`的目录下打开`cmd`，输入`adb reboot bootloader`，注意是`bootloader`而不是`fastboot`，就是说，`adb reboot bootloader`进入的是我们以前说的`fastboot`模式，而`adb reboot fastboot`进入的是`fastbootd`模式，说是用户空间的`fastboot`模式，`fastbootd`能够用于刷写`system`分区，也就是对于我自己的需求来说，我需要使用`fastbootd`将`GSI`镜像刷写到`system`分区中，具体可以看`fastbootd`模式的作用；
+4. 进入`bootloader`后，执行`fastboot flash unlock sn.img`，然后看到提示刷入成功后，使用平板的音量键调节，控制平板`restart to bootloader`，按下电源键重新启动，此时执行`fastboot oem unlock-go`，应该就能完成解锁了。
 
 
 
